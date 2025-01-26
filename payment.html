@@ -5,35 +5,225 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Options</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* General reset for layout */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    /* Center the card */
+    .min-h-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .card {
+      background-color: white;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-content {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #0056b3;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .payment-options {
+      display: none;
+    }
+
+    .space-y-4 > * {
+      margin-bottom: 15px;
+    }
+
+    /* Styling for input fields */
+    input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    /* Style for the bkash number */
+    .bkash-number {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .payment-logo {
+      width: 50px;
+      height: auto;
+      margin-right: 10px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .payment-method:hover {
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .payment-method img {
+      margin-right: 10px;
+    }
+
+    /* Flexbox for mobile banking icons */
+    .mobile-banking-options {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .mobile-banking-options .payment-method {
+      width: 30%;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <img src="images/iub.png" alt="IUB Logo" class="logo">
-      <h1>Payment Options</h1>
-    </header>
-    <main class="main-content">
-      <h2>Pay Online</h2>
-      <div class="payment-details">
-        <p>
-          <a href="bkash://sendmoney?phone=01624842965">
-            <img src="images/bkash.png" alt="bKash Logo" class="payment-logo">
-          </a>
-          <strong>
-            <a href="bkash://sendmoney?phone=01624842965">Bkash (Personal): 01624842965</a>
-          </strong>
-        </p>
-        <p>
-          <a href="bkash://sendmoney?phone=01321064128">
-            <img src="images/bkash.png" alt="bKash Logo" class="payment-logo">
-          </a>
-          <strong>
-            <a href="bkash://sendmoney?phone=01321064128">Bkash (Personal): 01321064128</a>
-          </strong>
-        </p>
+  <div class="min-h-screen">
+    <div class="card">
+      <div class="card-content">
+        <h1>IUBLIVE</h1>
+        <!-- Payment Method Selection -->
+        <div class="flex justify-center gap-4 mb-6">
+          <button class="btn" onclick="handlePaymentMethod('card')">Cards</button>
+          <button class="btn" onclick="handlePaymentMethod('mobile')">Mobile Banking</button>
+          <button class="btn" onclick="handlePaymentMethod('net')">Net Banking</button>
+        </div>
+
+        <!-- Card Payment Option -->
+        <div id="card-payment" class="payment-options">
+          <div class="space-y-4">
+            <input type="text" placeholder="Enter Card Number" />
+            <div class="flex gap-4">
+              <input type="text" placeholder="MM/YY" />
+              <input type="text" placeholder="CVC/CVV" />
+            </div>
+            <input type="text" placeholder="Card Holder Name" />
+            <button class="btn">Pay</button>
+          </div>
+        </div>
+
+        <!-- Mobile Banking Option -->
+        <div id="mobile-payment" class="payment-options">
+          <div class="space-y-4">
+            <div class="mobile-banking-options">
+              <div class="payment-method" onclick="handlePaymentMethod('bkash')">
+                <img src="images/bkash.png" alt="bKash" class="payment-logo" />
+                <span>bKash</span>
+              </div>
+              <div class="payment-method" onclick="handlePaymentMethod('rocket')">
+                <img src="images/rocket.png" alt="Rocket" class="payment-logo" />
+                <span>Rocket</span>
+              </div>
+              <div class="payment-method" onclick="handlePaymentMethod('nagad')">
+                <img src="images/nagad.png" alt="Nagad" class="payment-logo" />
+                <span>Nagad</span>
+              </div>
+              <div class="payment-method" onclick="handlePaymentMethod('upay')">
+                <img src="images/upay.png" alt="Upay" class="payment-logo" />
+                <span>Upay</span>
+              </div>
+              <div class="payment-method" onclick="handlePaymentMethod('pathao')">
+                <img src="images/pathao.png" alt="Pathao" class="payment-logo" />
+                <span>Pathao</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show bKash Numbers after bKash is clicked -->
+        <div id="bkash-number" class="bkash-number" style="display: none;">
+          <p>Send Money to: <strong>01624842965</strong></p>
+          <p>Send Money to: <strong>01321064128</strong></p>
+        </div>
+
+        <!-- Net Banking Option -->
+        <div id="net-payment" class="payment-options">
+          <div class="space-y-4">
+            <button class="btn">DBBL</button>
+            <button class="btn">Bank Asia</button>
+            <button class="btn">City Bank</button>
+          </div>
+        </div>
       </div>
-      <a href="index.html" class="btn back-btn">Go Back</a>
-    </main>
+    </div>
   </div>
+
+  <script>
+    // Function to handle showing and hiding payment options
+    function handlePaymentMethod(method) {
+      // Hide all payment options initially
+      document.getElementById('card-payment').style.display = 'none';
+      document.getElementById('mobile-payment').style.display = 'none';
+      document.getElementById('net-payment').style.display = 'none';
+      document.getElementById('bkash-number').style.display = 'none'; // Hide bkash number initially
+
+      // Show the selected payment option
+      if (method === 'card') {
+        document.getElementById('card-payment').style.display = 'block';
+      }
+
+      if (method === 'mobile') {
+        document.getElementById('mobile-payment').style.display = 'block';
+      }
+
+      if (method === 'net') {
+        document.getElementById('net-payment').style.display = 'block';
+      }
+
+      // Show bKash numbers when bKash is clicked
+      if (method === 'bkash') {
+        document.getElementById('bkash-number').style.display = 'block';
+      }
+    }
+
+    // On page load, show Card payment option by default
+    window.onload = function() {
+      handlePaymentMethod('card');
+    };
+  </script>
 </body>
 </html>
